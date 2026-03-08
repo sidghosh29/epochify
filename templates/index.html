@@ -23,6 +23,22 @@
                     <optgroup label="Universal">
                         <option value="UTC" {% if tz1=='UTC' %}selected{% endif %}>UTC</option>
                     </optgroup>
+                    <optgroup label="Asia & Pacific">
+                        <option value="Asia/Kolkata" {% if tz1=='Asia/Kolkata' %}selected{% endif %}>IST — Kolkata
+                        </option>
+                        <option value="Asia/Dubai" {% if tz1=='Asia/Dubai' %}selected{% endif %}>GST — Dubai</option>
+                        <option value="Asia/Singapore" {% if tz1=='Asia/Singapore' %}selected{% endif %}>SGT — Singapore
+                        </option>
+                        <option value="Asia/Shanghai" {% if tz1=='Asia/Shanghai' %}selected{% endif %}>CST — Shanghai
+                        </option>
+                        <option value="Asia/Tokyo" {% if tz1=='Asia/Tokyo' %}selected{% endif %}>JST — Tokyo</option>
+                        <option value="Asia/Seoul" {% if tz1=='Asia/Seoul' %}selected{% endif %}>KST — Seoul</option>
+                        <option value="Asia/Karachi" {% if tz1=='Asia/Karachi' %}selected{% endif %}>PKT — Karachi
+                        </option>
+                        <option value="Asia/Dhaka" {% if tz1=='Asia/Dhaka' %}selected{% endif %}>BST — Dhaka</option>
+                        <option value="Australia/Sydney" {% if tz1=='Australia/Sydney' %}selected{% endif %}>AEST —
+                            Sydney</option>
+                    </optgroup>
                     <optgroup label="Americas">
                         <option value="America/New_York" {% if tz1=='America/New_York' %}selected{% endif %}>EST — New
                             York</option>
@@ -48,22 +64,6 @@
                         </option>
                         <option value="Europe/Istanbul" {% if tz1=='Europe/Istanbul' %}selected{% endif %}>TRT —
                             Istanbul</option>
-                    </optgroup>
-                    <optgroup label="Asia & Pacific">
-                        <option value="Asia/Kolkata" {% if tz1=='Asia/Kolkata' %}selected{% endif %}>IST — Kolkata
-                        </option>
-                        <option value="Asia/Dubai" {% if tz1=='Asia/Dubai' %}selected{% endif %}>GST — Dubai</option>
-                        <option value="Asia/Singapore" {% if tz1=='Asia/Singapore' %}selected{% endif %}>SGT — Singapore
-                        </option>
-                        <option value="Asia/Shanghai" {% if tz1=='Asia/Shanghai' %}selected{% endif %}>CST — Shanghai
-                        </option>
-                        <option value="Asia/Tokyo" {% if tz1=='Asia/Tokyo' %}selected{% endif %}>JST — Tokyo</option>
-                        <option value="Asia/Seoul" {% if tz1=='Asia/Seoul' %}selected{% endif %}>KST — Seoul</option>
-                        <option value="Asia/Karachi" {% if tz1=='Asia/Karachi' %}selected{% endif %}>PKT — Karachi
-                        </option>
-                        <option value="Asia/Dhaka" {% if tz1=='Asia/Dhaka' %}selected{% endif %}>BST — Dhaka</option>
-                        <option value="Australia/Sydney" {% if tz1=='Australia/Sydney' %}selected{% endif %}>AEST —
-                            Sydney</option>
                     </optgroup>
                     <optgroup label="Africa">
                         <option value="Africa/Cairo" {% if tz1=='Africa/Cairo' %}selected{% endif %}>EET — Cairo
@@ -124,6 +124,26 @@
                         <optgroup label="Universal">
                             <option value="UTC" {% if tz2=='UTC' %}selected{% endif %}>UTC</option>
                         </optgroup>
+                        <optgroup label="Asia & Pacific">
+                            <option value="Asia/Kolkata" {% if tz2=='Asia/Kolkata' %}selected{% endif %}>IST — Kolkata
+                            </option>
+                            <option value="Asia/Dubai" {% if tz2=='Asia/Dubai' %}selected{% endif %}>GST — Dubai
+                            </option>
+                            <option value="Asia/Singapore" {% if tz2=='Asia/Singapore' %}selected{% endif %}>SGT —
+                                Singapore</option>
+                            <option value="Asia/Shanghai" {% if tz2=='Asia/Shanghai' %}selected{% endif %}>CST —
+                                Shanghai</option>
+                            <option value="Asia/Tokyo" {% if tz2=='Asia/Tokyo' %}selected{% endif %}>JST — Tokyo
+                            </option>
+                            <option value="Asia/Seoul" {% if tz2=='Asia/Seoul' %}selected{% endif %}>KST — Seoul
+                            </option>
+                            <option value="Asia/Karachi" {% if tz2=='Asia/Karachi' %}selected{% endif %}>PKT — Karachi
+                            </option>
+                            <option value="Asia/Dhaka" {% if tz2=='Asia/Dhaka' %}selected{% endif %}>BST — Dhaka
+                            </option>
+                            <option value="Australia/Sydney" {% if tz2=='Australia/Sydney' %}selected{% endif %}>AEST —
+                                Sydney</option>
+                        </optgroup>
                         <optgroup label="Americas">
                             <option value="America/New_York" {% if tz2=='America/New_York' %}selected{% endif %}>EST —
                                 New York</option>
@@ -149,26 +169,6 @@
                             </option>
                             <option value="Europe/Istanbul" {% if tz2=='Europe/Istanbul' %}selected{% endif %}>TRT —
                                 Istanbul</option>
-                        </optgroup>
-                        <optgroup label="Asia & Pacific">
-                            <option value="Asia/Kolkata" {% if tz2=='Asia/Kolkata' %}selected{% endif %}>IST — Kolkata
-                            </option>
-                            <option value="Asia/Dubai" {% if tz2=='Asia/Dubai' %}selected{% endif %}>GST — Dubai
-                            </option>
-                            <option value="Asia/Singapore" {% if tz2=='Asia/Singapore' %}selected{% endif %}>SGT —
-                                Singapore</option>
-                            <option value="Asia/Shanghai" {% if tz2=='Asia/Shanghai' %}selected{% endif %}>CST —
-                                Shanghai</option>
-                            <option value="Asia/Tokyo" {% if tz2=='Asia/Tokyo' %}selected{% endif %}>JST — Tokyo
-                            </option>
-                            <option value="Asia/Seoul" {% if tz2=='Asia/Seoul' %}selected{% endif %}>KST — Seoul
-                            </option>
-                            <option value="Asia/Karachi" {% if tz2=='Asia/Karachi' %}selected{% endif %}>PKT — Karachi
-                            </option>
-                            <option value="Asia/Dhaka" {% if tz2=='Asia/Dhaka' %}selected{% endif %}>BST — Dhaka
-                            </option>
-                            <option value="Australia/Sydney" {% if tz2=='Australia/Sydney' %}selected{% endif %}>AEST —
-                                Sydney</option>
                         </optgroup>
                         <optgroup label="Africa">
                             <option value="Africa/Cairo" {% if tz2=='Africa/Cairo' %}selected{% endif %}>EET — Cairo
