@@ -136,6 +136,24 @@ nav button:hover {
   color: #888;
   margin-bottom: 1.5rem;
 }
+.clock-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1a1a2e;
+  border: 1px solid #2e2e4a;
+  border-left: 3px solid #7c3aed;
+  border-radius: 6px;
+  padding: 0.65rem 1rem;
+  font-size: 0.82rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.01em;
+}
+.clock-note svg {
+  flex-shrink: 0;
+  color: #7c3aed;
+}
 .epoch-value {
   display: inline-block;
   background: #1e1e1e;
@@ -440,6 +458,90 @@ pre.code-sql {
   background: #0d1f0f;
   border-color: #4caf50;
   color: #a5d6a7;
+}
+
+/* Epoch bar link */
+.epoch-bar-link {
+  color: #888;
+  text-decoration: underline;
+  text-decoration-color: #444;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+.epoch-bar-link:hover {
+  color: #a78bfa;
+  text-decoration-color: #7c3aed;
+}
+
+/* Epoch clock page */
+.clock-page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.clock-page-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin-bottom: 0.5rem;
+}
+.clock-page-subtitle {
+  font-size: 0.88rem;
+  color: #555;
+  margin: 0;
+}
+.clock-card {
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 2.5rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+.clock-local-time {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+.clock-epoch {
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-weight: 800;
+  color: #7c3aed;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 40px rgba(124, 58, 237, 0.3);
+}
+.clock-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid #2a2a2a;
+  padding-top: 1.2rem;
+}
+.clock-meta-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: #aaa;
+  font-variant-numeric: tabular-nums;
+}
+.clock-meta-label {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #555;
+}
+.clock-meta-muted {
+  color: #555;
+}
+.clock-meta-muted span {
+  color: #555;
 }
 
 footer {

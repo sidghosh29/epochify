@@ -53,6 +53,11 @@ async def convert_html(
     )
 
 
+@app.get("/epoch-clock", response_class=HTMLResponse)
+async def epoch_clock(request: Request):
+    return templates.TemplateResponse("epoch-clock.html", {"request": request})
+
+
 @app.get("/health")
 async def health():
     return {"status": "ok"}
