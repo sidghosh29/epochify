@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
 
-    <div class="live-epoch-bar">
+    <div class="live-epoch-bar" id="converters">
         The current <a href="/epoch-clock" class="epoch-bar-link">Unix epoch time</a> is <span id="live-epoch" class="epoch-value" title="⏸ Pause">—</span>
     </div>
 
@@ -90,7 +90,7 @@
                 <button type="submit">De-Epochify</button>
             </form>
             {% if result and input.direction == 'epoch_to_date' %}
-            <div class="result {% if result.error %}result-error{% endif %}">
+            <div id="result" class="result {% if result.error %}result-error{% endif %}">
                 {% if result.error %}<p>{{ result.error }}</p>
                 {% else %}
                 <strong>{{ result.output }}</strong>
@@ -193,7 +193,7 @@
                 <button type="submit" class="form-action-btn">Epochify</button>
             </form>
             {% if result and input.direction == 'date_to_epoch' %}
-            <div class="result {% if result.error %}result-error{% endif %}">
+            <div id="result" class="result {% if result.error %}result-error{% endif %}">
                 {% if result.error %}<p>{{ result.error }}</p>
                 {% else %}
                 <strong>{{ result.output }}</strong>
@@ -206,47 +206,6 @@
     </div><!-- /converters-grid -->
 
 </div>
-
-<script>
-    let paused = false;
-
-    function updateEpoch() {
-        if (!paused) {
-            document.getElementById('live-epoch').textContent = Math.floor(Date.now() / 1000);
-        }
-    }
-    updateEpoch();
-    setInterval(updateEpoch, 1000);
-
-    const epochEl = document.getElementById('live-epoch');
-    epochEl.addEventListener('mouseenter', () => { paused = true; });
-    epochEl.addEventListener('mouseleave', () => { paused = false; updateEpoch(); });
-
-    // Pre-populate epoch input with current timestamp
-    const epochInput = document.getElementById('epoch-input');
-    if (!epochInput.value) {
-        epochInput.value = Math.floor(Date.now() / 1000);
-    }
-
-    // Pre-populate date fields with current UTC date/time
-    const now = new Date();
-    document.getElementById('f-yr').value = now.getUTCFullYear();
-    document.getElementById('f-mon').value = now.getUTCMonth() + 1;
-    document.getElementById('f-day').value = now.getUTCDate();
-    document.getElementById('f-hr').value = now.getUTCHours();
-    document.getElementById('f-min').value = now.getUTCMinutes();
-    document.getElementById('f-sec').value = now.getUTCSeconds();
-
-    document.getElementById('date-form').addEventListener('submit', function () {
-        const yr = document.getElementById('f-yr').value || '1970';
-        const mon = String(document.getElementById('f-mon').value || '1').padStart(2, '0');
-        const day = String(document.getElementById('f-day').value || '1').padStart(2, '0');
-        const hr = String(document.getElementById('f-hr').value || '0').padStart(2, '0');
-        const min = String(document.getElementById('f-min').value || '0').padStart(2, '0');
-        const sec = String(document.getElementById('f-sec').value || '0').padStart(2, '0');
-        document.getElementById('date-value').value = `${yr}-${mon}-${day} ${hr}:${min}:${sec}`;
-    });
-</script>
 
 <div class="container content-section">
 

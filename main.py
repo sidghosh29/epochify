@@ -48,7 +48,7 @@ async def convert_html(
 ):
     return RedirectResponse(
         url="/?" + urlencode({"direction": direction,
-                             "value": value, "timezone": timezone, "unit": unit}),
+                             "value": value, "timezone": timezone, "unit": unit}) + "#converters",
         status_code=303
     )
 
