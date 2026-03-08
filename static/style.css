@@ -1,0 +1,455 @@
+html {
+  height: 100%;
+  background-color: #121212;
+}
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2rem 0;
+  background-color: #121212;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  flex: 1;
+  margin-top: 1rem;
+}
+form {
+  display: grid;
+  gap: 1rem;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+input,
+select,
+button {
+  padding: 0.5rem;
+  font-size: 1rem;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+form button[type="submit"] {
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+/* De-Epochify — purple */
+.inline-form button[type="submit"] {
+  background-color: #7c3aed;
+}
+.inline-form button[type="submit"]:hover {
+  background-color: #5b21b6;
+}
+/* Epochify — purple (same as De-Epochify) */
+.date-inputs button[type="submit"] {
+  background-color: #7c3aed;
+}
+.date-inputs button[type="submit"]:hover {
+  background-color: #5b21b6;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0 1rem 0;
+  border-bottom: 1px solid #2a2a2a;
+  margin-bottom: 1.5rem;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.nav-icon {
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+.clock-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #e0e0e0;
+}
+.nav-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+}
+.nav-version {
+  font-size: 0.7rem;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  margin-left: 0.2rem;
+  align-self: flex-end;
+  margin-bottom: 0.15rem;
+}
+nav button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+nav button:hover {
+  background-color: #b02a37;
+}
+.converters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+@media (max-width: 768px) {
+  .converters-grid {
+    grid-template-columns: 1fr;
+  }
+  body {
+    padding: 1rem;
+  }
+}
+
+/* Live epoch bar */
+.live-epoch-bar {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+.epoch-value {
+  display: inline-block;
+  background: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  cursor: text;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  user-select: all;
+}
+.epoch-value:hover {
+  border-color: #007bff;
+  background-color: #1a2535;
+}
+
+/* Page & section titles */
+.page-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #e0e0e0;
+  text-align: center;
+}
+.converter-section {
+  padding: 1.2rem;
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+}
+.section-title {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #666;
+  margin: 0 0 0.85rem 0;
+  font-weight: 500;
+}
+
+/* Epoch → Date inline form */
+.inline-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+.inline-form .value-input {
+  border-radius: 6px;
+}
+.inline-form select {
+  border-radius: 6px;
+}
+.inline-form button[type="submit"] {
+  grid-column: span 2;
+  margin-top: 0.75rem;
+  padding: 0.6rem 1.4rem;
+  justify-self: start;
+  border-top: 1px solid #2a2a2a;
+  padding-top: 1rem;
+  width: 100%;
+}
+
+/* Date → Epoch form */
+.date-form {
+  display: block;
+}
+.date-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: flex-end;
+}
+.date-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+.date-label {
+  font-size: 0.72rem;
+  color: #aaa;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.date-part {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.45rem 0.4rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+.date-part.yr {
+  width: 70px;
+}
+.date-part.sm {
+  width: 52px;
+}
+.date-inputs .sep {
+  color: #555;
+  font-size: 1.1rem;
+  padding-bottom: 0.45rem;
+  user-select: none;
+}
+.date-inputs select {
+  border-radius: 6px;
+  align-self: flex-end;
+}
+.date-inputs button[type="submit"] {
+  align-self: flex-end;
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0.5rem 1rem;
+}
+.date-inputs button[type="submit"]:hover {
+  background-color: #5b21b6;
+}
+.form-action-btn {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.6rem 1.4rem;
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding-top: 1rem;
+}
+.form-action-btn:hover {
+  background-color: #5b21b6;
+}
+
+/* Result box */
+.result {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #1e1e1e;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  margin-top: 0.85rem;
+  font-size: 1.05rem;
+}
+.result strong {
+  flex: 1;
+}
+.result button {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #aaa;
+  font-size: 0.82rem;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.result button:hover {
+  background: #333;
+  color: #e0e0e0;
+}
+.result-error {
+  color: #ff6b6b;
+}
+
+/* Contact card */
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  padding: 1.4rem 1.8rem;
+  margin-top: 1.5rem;
+  max-width: 420px;
+}
+
+.contact-icon {
+  color: #555;
+  flex-shrink: 0;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.contact-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #555;
+}
+
+.contact-email {
+  font-size: 0.95rem;
+  color: #e0e0e0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-email:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Content section */
+.content-section {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.content-section h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin-bottom: 0.5rem;
+  margin-top: 2rem;
+}
+
+.content-section h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.content-section p,
+.content-section li {
+  font-size: 0.92rem;
+  color: #aaa;
+  line-height: 1.7;
+}
+
+.content-section ul {
+  padding-left: 1.4rem;
+  margin-top: 0.4rem;
+}
+
+.content-section pre {
+  border-radius: 6px;
+  padding: 0.9rem 1.1rem;
+  font-family: "Fira Code", "Consolas", monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 0.5rem 0 1rem;
+  border-left: 3px solid;
+}
+
+.content-section pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+.content-section code {
+  font-family: "Fira Code", "Consolas", monospace;
+  font-size: 0.82rem;
+  background: #1e1e1e;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  color: #ce9178;
+}
+
+/* Python: blue tint */
+pre.code-python {
+  background: #0d1b2a;
+  border-color: #4a90d9;
+  color: #a8d8ff;
+}
+
+/* JavaScript: yellow tint */
+pre.code-js {
+  background: #1a1800;
+  border-color: #f0d000;
+  color: #fff0a0;
+}
+
+/* SQL: green tint */
+pre.code-sql {
+  background: #0d1f0f;
+  border-color: #4caf50;
+  color: #a5d6a7;
+}
+
+footer {
+  margin-top: 2rem;
+  padding: 1.2rem 0;
+  border-top: 1px solid #2a2a2a;
+  text-align: center;
+  font-size: 0.78rem;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+}

@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+
+    <div class="live-epoch-bar">
+        The current Unix epoch time is <span id="live-epoch" class="epoch-value" title="⏸ Pause">—</span>
+    </div>
+
+    <h2 class="page-title">Unix Epoch ↔ Human-readable Date</h2>
+
+    <div class="converters-grid">
+
+        <!-- Epoch → Date -->
+        <section class="converter-section">
+            <h3 class="section-title">Unix Timestamp to readable date</h3>
+            <form method="POST" action="/" class="inline-form">
+                <input type="hidden" name="direction" value="epoch_to_date">
+                <input type="text" name="value" id="epoch-input"
+                    value="{{ input.value if input.direction == 'epoch_to_date' else '' }}"
+                    placeholder="e.g. 1700000000" class="value-input">
+                <select name="timezone">
+                    {% set tz1 = input.timezone if input.direction == 'epoch_to_date' else 'UTC' %}
+                    <optgroup label="Universal">
+                        <option value="UTC" {% if tz1=='UTC' %}selected{% endif %}>UTC</option>
+                    </optgroup>
+                    <optgroup label="Americas">
+                        <option value="America/New_York" {% if tz1=='America/New_York' %}selected{% endif %}>EST — New
+                            York</option>
+                        <option value="America/Chicago" {% if tz1=='America/Chicago' %}selected{% endif %}>CST — Chicago
+                        </option>
+                        <option value="America/Denver" {% if tz1=='America/Denver' %}selected{% endif %}>MST — Denver
+                        </option>
+                        <option value="America/Los_Angeles" {% if tz1=='America/Los_Angeles' %}selected{% endif %}>PST —
+                            Los Angeles</option>
+                        <option value="America/Sao_Paulo" {% if tz1=='America/Sao_Paulo' %}selected{% endif %}>BRT — São
+                            Paulo</option>
+                        <option value="America/Toronto" {% if tz1=='America/Toronto' %}selected{% endif %}>EST — Toronto
+                        </option>
+                    </optgroup>
+                    <optgroup label="Europe">
+                        <option value="Europe/London" {% if tz1=='Europe/London' %}selected{% endif %}>GMT — London
+                        </option>
+                        <option value="Europe/Paris" {% if tz1=='Europe/Paris' %}selected{% endif %}>CET — Paris
+                        </option>
+                        <option value="Europe/Berlin" {% if tz1=='Europe/Berlin' %}selected{% endif %}>CET — Berlin
+                        </option>
+                        <option value="Europe/Moscow" {% if tz1=='Europe/Moscow' %}selected{% endif %}>MSK — Moscow
+                        </option>
+                        <option value="Europe/Istanbul" {% if tz1=='Europe/Istanbul' %}selected{% endif %}>TRT —
+                            Istanbul</option>
+                    </optgroup>
+                    <optgroup label="Asia & Pacific">
+                        <option value="Asia/Kolkata" {% if tz1=='Asia/Kolkata' %}selected{% endif %}>IST — Kolkata
+                        </option>
+                        <option value="Asia/Dubai" {% if tz1=='Asia/Dubai' %}selected{% endif %}>GST — Dubai</option>
+                        <option value="Asia/Singapore" {% if tz1=='Asia/Singapore' %}selected{% endif %}>SGT — Singapore
+                        </option>
+                        <option value="Asia/Shanghai" {% if tz1=='Asia/Shanghai' %}selected{% endif %}>CST — Shanghai
+                        </option>
+                        <option value="Asia/Tokyo" {% if tz1=='Asia/Tokyo' %}selected{% endif %}>JST — Tokyo</option>
+                        <option value="Asia/Seoul" {% if tz1=='Asia/Seoul' %}selected{% endif %}>KST — Seoul</option>
+                        <option value="Asia/Karachi" {% if tz1=='Asia/Karachi' %}selected{% endif %}>PKT — Karachi
+                        </option>
+                        <option value="Asia/Dhaka" {% if tz1=='Asia/Dhaka' %}selected{% endif %}>BST — Dhaka</option>
+                        <option value="Australia/Sydney" {% if tz1=='Australia/Sydney' %}selected{% endif %}>AEST —
+                            Sydney</option>
+                    </optgroup>
+                    <optgroup label="Africa">
+                        <option value="Africa/Cairo" {% if tz1=='Africa/Cairo' %}selected{% endif %}>EET — Cairo
+                        </option>
+                        <option value="Africa/Johannesburg" {% if tz1=='Africa/Johannesburg' %}selected{% endif %}>SAST
+                            — Johannesburg</option>
+                        <option value="Africa/Lagos" {% if tz1=='Africa/Lagos' %}selected{% endif %}>WAT — Lagos
+                        </option>
+                    </optgroup>
+                </select>
+                <select name="unit">
+                    <option value="seconds" {% if input.direction=='epoch_to_date' and input.unit=='seconds'
+                        %}selected{% endif %}>Seconds</option>
+                    <option value="milliseconds" {% if input.direction=='epoch_to_date' and input.unit=='milliseconds'
+                        %}selected{% endif %}>Milliseconds</option>
+                    <option value="microseconds" {% if input.direction=='epoch_to_date' and input.unit=='microseconds'
+                        %}selected{% endif %}>Microseconds</option>
+                </select>
+                <button type="submit">De-Epochify</button>
+            </form>
+            {% if result and input.direction == 'epoch_to_date' %}
+            <div class="result {% if result.error %}result-error{% endif %}">
+                {% if result.error %}<p>{{ result.error }}</p>
+                {% else %}
+                <strong>{{ result.output }}</strong>
+                <button type="button" onclick="navigator.clipboard.writeText('{{ result.output }}')">Copy</button>
+                {% endif %}
+            </div>
+            {% endif %}
+        </section>
+
+        <!-- Date → Epoch -->
+        <section class="converter-section">
+            <h3 class="section-title">Date to Unix Timestamp</h3>
+            <form method="POST" action="/" class="date-form" id="date-form">
+                <input type="hidden" name="direction" value="date_to_epoch">
+                <input type="hidden" name="value" id="date-value">
+                <div class="date-inputs">
+                    <div class="date-field"><span class="date-label">Yr</span><input type="number" id="f-yr"
+                            class="date-part yr" min="1970"></div>
+                    <span class="sep">-</span>
+                    <div class="date-field"><span class="date-label">Mon</span><input type="number" id="f-mon"
+                            class="date-part sm" min="1" max="12"></div>
+                    <span class="sep">-</span>
+                    <div class="date-field"><span class="date-label">Day</span><input type="number" id="f-day"
+                            class="date-part sm" min="1" max="31"></div>
+                    <span class="sep">&nbsp;</span>
+                    <div class="date-field"><span class="date-label">Hr</span><input type="number" id="f-hr"
+                            class="date-part sm" min="0" max="23"></div>
+                    <span class="sep">:</span>
+                    <div class="date-field"><span class="date-label">Min</span><input type="number" id="f-min"
+                            class="date-part sm" min="0" max="59"></div>
+                    <span class="sep">:</span>
+                    <div class="date-field"><span class="date-label">Sec</span><input type="number" id="f-sec"
+                            class="date-part sm" min="0" max="59"></div>
+                    <select name="timezone">
+                        {% set tz2 = input.timezone if input.direction == 'date_to_epoch' else 'UTC' %}
+                        <optgroup label="Universal">
+                            <option value="UTC" {% if tz2=='UTC' %}selected{% endif %}>UTC</option>
+                        </optgroup>
+                        <optgroup label="Americas">
+                            <option value="America/New_York" {% if tz2=='America/New_York' %}selected{% endif %}>EST —
+                                New York</option>
+                            <option value="America/Chicago" {% if tz2=='America/Chicago' %}selected{% endif %}>CST —
+                                Chicago</option>
+                            <option value="America/Denver" {% if tz2=='America/Denver' %}selected{% endif %}>MST —
+                                Denver</option>
+                            <option value="America/Los_Angeles" {% if tz2=='America/Los_Angeles' %}selected{% endif %}>
+                                PST — Los Angeles</option>
+                            <option value="America/Sao_Paulo" {% if tz2=='America/Sao_Paulo' %}selected{% endif %}>BRT —
+                                São Paulo</option>
+                            <option value="America/Toronto" {% if tz2=='America/Toronto' %}selected{% endif %}>EST —
+                                Toronto</option>
+                        </optgroup>
+                        <optgroup label="Europe">
+                            <option value="Europe/London" {% if tz2=='Europe/London' %}selected{% endif %}>GMT — London
+                            </option>
+                            <option value="Europe/Paris" {% if tz2=='Europe/Paris' %}selected{% endif %}>CET — Paris
+                            </option>
+                            <option value="Europe/Berlin" {% if tz2=='Europe/Berlin' %}selected{% endif %}>CET — Berlin
+                            </option>
+                            <option value="Europe/Moscow" {% if tz2=='Europe/Moscow' %}selected{% endif %}>MSK — Moscow
+                            </option>
+                            <option value="Europe/Istanbul" {% if tz2=='Europe/Istanbul' %}selected{% endif %}>TRT —
+                                Istanbul</option>
+                        </optgroup>
+                        <optgroup label="Asia & Pacific">
+                            <option value="Asia/Kolkata" {% if tz2=='Asia/Kolkata' %}selected{% endif %}>IST — Kolkata
+                            </option>
+                            <option value="Asia/Dubai" {% if tz2=='Asia/Dubai' %}selected{% endif %}>GST — Dubai
+                            </option>
+                            <option value="Asia/Singapore" {% if tz2=='Asia/Singapore' %}selected{% endif %}>SGT —
+                                Singapore</option>
+                            <option value="Asia/Shanghai" {% if tz2=='Asia/Shanghai' %}selected{% endif %}>CST —
+                                Shanghai</option>
+                            <option value="Asia/Tokyo" {% if tz2=='Asia/Tokyo' %}selected{% endif %}>JST — Tokyo
+                            </option>
+                            <option value="Asia/Seoul" {% if tz2=='Asia/Seoul' %}selected{% endif %}>KST — Seoul
+                            </option>
+                            <option value="Asia/Karachi" {% if tz2=='Asia/Karachi' %}selected{% endif %}>PKT — Karachi
+                            </option>
+                            <option value="Asia/Dhaka" {% if tz2=='Asia/Dhaka' %}selected{% endif %}>BST — Dhaka
+                            </option>
+                            <option value="Australia/Sydney" {% if tz2=='Australia/Sydney' %}selected{% endif %}>AEST —
+                                Sydney</option>
+                        </optgroup>
+                        <optgroup label="Africa">
+                            <option value="Africa/Cairo" {% if tz2=='Africa/Cairo' %}selected{% endif %}>EET — Cairo
+                            </option>
+                            <option value="Africa/Johannesburg" {% if tz2=='Africa/Johannesburg' %}selected{% endif %}>
+                                SAST — Johannesburg</option>
+                            <option value="Africa/Lagos" {% if tz2=='Africa/Lagos' %}selected{% endif %}>WAT — Lagos
+                            </option>
+                        </optgroup>
+                    </select>
+                    <select name="unit">
+                        <option value="seconds">Seconds</option>
+                        <option value="milliseconds">Milliseconds</option>
+                        <option value="microseconds">Microseconds</option>
+                    </select>
+                </div>
+                <button type="submit" class="form-action-btn">Epochify</button>
+            </form>
+            {% if result and input.direction == 'date_to_epoch' %}
+            <div class="result {% if result.error %}result-error{% endif %}">
+                {% if result.error %}<p>{{ result.error }}</p>
+                {% else %}
+                <strong>{{ result.output }}</strong>
+                <button type="button" onclick="navigator.clipboard.writeText('{{ result.output }}')">Copy</button>
+                {% endif %}
+            </div>
+            {% endif %}
+        </section>
+
+    </div><!-- /converters-grid -->
+
+</div>
+
+<script>
+    let paused = false;
+
+    function updateEpoch() {
+        if (!paused) {
+            document.getElementById('live-epoch').textContent = Math.floor(Date.now() / 1000);
+        }
+    }
+    updateEpoch();
+    setInterval(updateEpoch, 1000);
+
+    const epochEl = document.getElementById('live-epoch');
+    epochEl.addEventListener('mouseenter', () => { paused = true; });
+    epochEl.addEventListener('mouseleave', () => { paused = false; updateEpoch(); });
+
+    // Pre-populate epoch input with current timestamp
+    const epochInput = document.getElementById('epoch-input');
+    if (!epochInput.value) {
+        epochInput.value = Math.floor(Date.now() / 1000);
+    }
+
+    // Pre-populate date fields with current UTC date/time
+    const now = new Date();
+    document.getElementById('f-yr').value = now.getUTCFullYear();
+    document.getElementById('f-mon').value = now.getUTCMonth() + 1;
+    document.getElementById('f-day').value = now.getUTCDate();
+    document.getElementById('f-hr').value = now.getUTCHours();
+    document.getElementById('f-min').value = now.getUTCMinutes();
+    document.getElementById('f-sec').value = now.getUTCSeconds();
+
+    document.getElementById('date-form').addEventListener('submit', function () {
+        const yr = document.getElementById('f-yr').value || '1970';
+        const mon = String(document.getElementById('f-mon').value || '1').padStart(2, '0');
+        const day = String(document.getElementById('f-day').value || '1').padStart(2, '0');
+        const hr = String(document.getElementById('f-hr').value || '0').padStart(2, '0');
+        const min = String(document.getElementById('f-min').value || '0').padStart(2, '0');
+        const sec = String(document.getElementById('f-sec').value || '0').padStart(2, '0');
+        document.getElementById('date-value').value = `${yr}-${mon}-${day} ${hr}:${min}:${sec}`;
+    });
+</script>
+
+<div class="container content-section">
+
+    <section class="static-section">
+        <h2>What is Unix Epoch Time?</h2>
+        <p>Unix epoch time (also called a Unix timestamp or POSIX time) is a way of representing time as a single
+            number: the total number of <strong>seconds elapsed since January 1, 1970, 00:00:00 UTC</strong>, known as
+            the Unix epoch. It does not account for leap seconds and is timezone-independent, making it a universal
+            standard for representing moments in time across different systems and programming languages.</p>
+        <p>For example, the Unix timestamp <strong>1700000000</strong> corresponds to <strong>Tue, 14 Nov 2023 22:13:20
+                UTC</strong>.</p>
+    </section>
+
+    <section class="static-section">
+        <h2>How to Convert a Unix Timestamp to a Date</h2>
+        <p>To convert a Unix timestamp to a human-readable date, divide the timestamp by the appropriate unit (1 for
+            seconds, 1000 for milliseconds) and pass it to a date/time function in your language of choice. Epochify
+            handles this instantly: paste the timestamp, select your timezone and unit, and hit Convert.</p>
+
+        <h3>Python</h3>
+        <pre class="code-python"><code>from datetime import datetime, timezone
+dt = datetime.fromtimestamp(1700000000, tz=timezone.utc)
+print(dt)  # 2023-11-14 22:13:20+00:00</code></pre>
+
+        <h3>JavaScript</h3>
+        <pre class="code-js"><code>const date = new Date(1700000000 * 1000);
+console.log(date.toUTCString());  // Tue, 14 Nov 2023 22:13:20 GMT</code></pre>
+
+        <h3>SQL (PostgreSQL)</h3>
+        <pre class="code-sql"><code>SELECT TO_TIMESTAMP(1700000000);</code></pre>
+    </section>
+
+    <section class="static-section">
+        <h2>How to Convert a Date to a Unix Timestamp</h2>
+        <p>Going the other direction is equally common. You may need to convert a known date to its epoch value for
+            storage, comparison, or sending in an API request.</p>
+
+        <h3>Python</h3>
+        <pre class="code-python"><code>from datetime import datetime, timezone
+dt = datetime(2023, 11, 14, 22, 13, 20, tzinfo=timezone.utc)
+print(int(dt.timestamp()))  # 1700000000</code></pre>
+
+        <h3>JavaScript</h3>
+        <pre class="code-js"><code>const epoch = Math.floor(new Date('2023-11-14T22:13:20Z').getTime() / 1000);
+console.log(epoch);  // 1700000000</code></pre>
+    </section>
+
+    <section class="static-section">
+        <h2>Why Do Developers Use Epoch Time?</h2>
+        <p>Epoch timestamps are preferred in software development for several reasons:</p>
+        <ul>
+            <li><strong>Timezone-neutral:</strong> a single integer represents an unambiguous moment in time, regardless
+                of where the server or user is located.</li>
+            <li><strong>Easy arithmetic:</strong> comparing, sorting, or calculating durations between two timestamps is
+                just subtraction.</li>
+            <li><strong>Compact storage:</strong> storing a 32-bit or 64-bit integer is more efficient than a formatted
+                date string.</li>
+            <li><strong>Universal support:</strong> every major programming language, database, and operating system
+                understands Unix timestamps natively.</li>
+        </ul>
+    </section>
+
+    <section class="static-section">
+        <h2>Milliseconds vs Seconds vs Microseconds</h2>
+        <p>While the original Unix timestamp counts in <strong>seconds</strong>, many modern systems use finer
+            resolutions:</p>
+        <ul>
+            <li><strong>Milliseconds (ms):</strong> used by JavaScript's <code>Date.now()</code>, Java, and most REST
+                APIs. Divide by 1,000 to get seconds.</li>
+            <li><strong>Microseconds (µs):</strong> used in high-precision logging, databases like PostgreSQL, and
+                network packet capture. Divide by 1,000,000 to get seconds.</li>
+        </ul>
+        <p>Epochify supports all three. Just select the correct unit before converting.</p>
+    </section>
+
+</div>
+{% endblock %}

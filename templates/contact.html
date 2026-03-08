@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container static-page">
+    <h2 class="page-title">Contact</h2>
+
+    <section class="static-section">
+        <p>Have a question, suggestion, or found a bug? Reach out and I'll get back to you.</p>
+    </section>
+
+    <div class="contact-card">
+        <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" width="28" height="28">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <polyline points="2,4 12,13 22,4" />
+            </svg>
+        </div>
+        <div class="contact-details">
+            <span class="contact-label">Email</span>
+            <a href="mailto:your@email.com" class="contact-email">your@email.com</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

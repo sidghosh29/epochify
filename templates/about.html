@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container static-page">
+    <h2 class="page-title">About Epochify</h2>
+
+    <section class="static-section">
+        <p>Epochify is a free, no-frills tool for converting between Unix epoch timestamps and human-readable dates.
+            It was built by <strong>Siddharth Ghosh</strong> as a fast, reliable reference for developers who
+            regularly work with timestamps across different systems, timezones, and APIs.</p>
+    </section>
+
+    <section class="static-section">
+        <h3>What is a Unix Timestamp?</h3>
+        <p>A Unix timestamp is an integer representing the number of seconds elapsed since
+            <strong>January 1, 1970, 00:00:00 UTC</strong>, also known as the Unix epoch. It is
+            timezone-independent, making it a consistent way to store and compare points in time across different
+            systems and programming languages. Many APIs and databases also use millisecond or microsecond
+            variants of the same format.
+        </p>
+    </section>
+
+    <section class="static-section">
+        <h3>Why Epochify Exists</h3>
+        <p>Timestamps appear constantly in log files, database records, API responses, and debugging sessions.
+            Converting them mentally or writing a one-off script each time is inefficient. Epochify provides a
+            single, quick interface to handle the conversion in either direction, with timezone and unit support
+            built in.</p>
+    </section>
+
+    <section class="static-section">
+        <h3>Features</h3>
+        <ul>
+            <li>Convert Unix timestamps to human-readable dates</li>
+            <li>Convert dates to Unix timestamps</li>
+            <li>Support for seconds, milliseconds, and microseconds</li>
+            <li>20+ timezone options across all major regions</li>
+            <li>Live current epoch display on the home page</li>
+            <li>REST API endpoint for programmatic use (<code>/api/v1/convert</code>)</li>
+        </ul>
+    </section>
+</div>
+{% endblock %}
