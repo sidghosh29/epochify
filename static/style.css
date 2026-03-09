@@ -101,18 +101,19 @@ nav {
   margin-bottom: 0.15rem;
 }
 nav button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
+  background: transparent !important;
+  color: #a78bfa;
+  border: 1px solid #7c3aed !important;
   border-radius: 6px;
   padding: 0.35rem 0.85rem;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 nav button:hover {
-  background-color: #b02a37;
+  background-color: #7c3aed !important;
+  color: white;
 }
 .converters-grid {
   display: grid;
@@ -137,7 +138,7 @@ nav button:hover {
   margin-bottom: 1.5rem;
 }
 .clock-note {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   background: #1a1a2e;
@@ -145,9 +146,8 @@ nav button:hover {
   border-left: 3px solid #7c3aed;
   border-radius: 6px;
   padding: 0.65rem 1rem;
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   color: #888;
-  margin-bottom: 1.5rem;
   letter-spacing: 0.01em;
 }
 .clock-note svg {
