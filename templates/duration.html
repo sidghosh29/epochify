@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+
+    <h2 class="page-title">Duration Calculator</h2>
+    <p class="page-subtitle">Calculate the time difference between two Unix timestamps or two dates.</p>
+
+    <div class="converters-grid">
+
+        <!-- Timestamp Duration -->
+        <section class="converter-section">
+            <h3 class="section-title">Between two timestamps</h3>
+            <form class="duration-form" id="ts-duration-form" onsubmit="return false;">
+                <div class="duration-row">
+                    <label class="duration-label">Start</label>
+                    <input type="text" id="ts-start" placeholder="e.g. 1700000000" class="value-input">
+                </div>
+                <div class="duration-row">
+                    <label class="duration-label">End</label>
+                    <input type="text" id="ts-end" placeholder="e.g. 1700086400" class="value-input">
+                </div>
+                <select id="ts-unit">
+                    <option value="seconds" selected>Seconds</option>
+                    <option value="milliseconds">Milliseconds</option>
+                    <option value="microseconds">Microseconds</option>
+                </select>
+                <button type="submit" class="form-action-btn" id="ts-calc-btn">Calculate Duration</button>
+            </form>
+            <div id="ts-duration-result" class="result" style="display:none"></div>
+        </section>
+
+        <!-- Date Duration -->
+        <section class="converter-section">
+            <h3 class="section-title">Between two dates</h3>
+            <form class="duration-form" id="date-duration-form" onsubmit="return false;">
+                <div class="duration-row">
+                    <label class="duration-label">Start</label>
+                    <input type="datetime-local" id="date-start" class="value-input">
+                </div>
+                <div class="duration-row">
+                    <label class="duration-label">End</label>
+                    <input type="datetime-local" id="date-end" class="value-input">
+                </div>
+                <button type="submit" class="form-action-btn" id="date-calc-btn">Calculate Duration</button>
+            </form>
+            <div id="date-duration-result" class="result" style="display:none"></div>
+        </section>
+
+    </div>
+
+</div>
+
+<div class="container content-section">
+    <section class="static-section">
+        <h2>How Duration Calculation Works</h2>
+        <p>The duration between two Unix timestamps is simply the absolute difference between them. Since timestamps
+            are integers (or floats) representing a single moment, subtracting one from another gives the elapsed
+            time in seconds (or the unit of your choice).</p>
+        <p>This calculator breaks the result down into days, hours, minutes, and seconds for easy reading.</p>
+    </section>
+</div>
+{% endblock %}

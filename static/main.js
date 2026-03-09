@@ -37,7 +37,8 @@ if (liveEpochEl) {
   const fMin = document.getElementById("f-min");
   const fSec = document.getElementById("f-sec");
 
-  // Keep submitted values after redirect; initialize with current UTC only when empty.
+  // Keep submitted values after redirect; initialize with current local time only when empty.
+  // Local time is used because the default timezone dropdown is Asia/Kolkata (IST).
   if (
     !fYr.value &&
     !fMon.value &&
@@ -47,12 +48,12 @@ if (liveEpochEl) {
     !fSec.value
   ) {
     const now = new Date();
-    fYr.value = now.getUTCFullYear();
-    fMon.value = now.getUTCMonth() + 1;
-    fDay.value = now.getUTCDate();
-    fHr.value = now.getUTCHours();
-    fMin.value = now.getUTCMinutes();
-    fSec.value = now.getUTCSeconds();
+    fYr.value = now.getFullYear();
+    fMon.value = now.getMonth() + 1;
+    fDay.value = now.getDate();
+    fHr.value = now.getHours();
+    fMin.value = now.getMinutes();
+    fSec.value = now.getSeconds();
   }
 
   document.getElementById("date-form").addEventListener("submit", function () {
@@ -135,4 +136,203 @@ if (clockEpochEl) {
 
   updateClock();
   setInterval(updateClock, 1000);
+}
+
+// --- Duration Calculator page ---
+const tsDurForm = document.getElementById("ts-duration-form");
+if (tsDurForm) {
+  function formatDuration(totalSeconds) {
+    const neg = totalSeconds < 0;
+    let s = Math.abs(Math.floor(totalSeconds));
+    const days = Math.floor(s / 86400);
+    s %= 86400;
+    const hrs = Math.floor(s / 3600);
+    s %= 3600;
+    const mins = Math.floor(s / 60);
+    s %= 60;
+    const parts = [];
+    if (days) parts.push(days + (days === 1 ? " day" : " days"));
+    if (hrs) parts.push(hrs + (hrs === 1 ? " hour" : " hours"));
+    if (mins) parts.push(mins + (mins === 1 ? " minute" : " minutes"));
+    parts.push(s + (s === 1 ? " second" : " seconds"));
+    return (neg ? "−" : "") + parts.join(", ");
+  }
+
+  document.getElementById("ts-calc-btn").addEventListener("click", function () {
+    const multipliers = {
+      seconds: 1,
+      milliseconds: 1000,
+      microseconds: 1000000,
+    };
+    const unit = document.getElementById("ts-unit").value;
+    const m = multipliers[unit];
+    const a = parseFloat(document.getElementById("ts-start").value);
+    const b = parseFloat(document.getElementById("ts-end").value);
+    const el = document.getElementById("ts-duration-result");
+    if (isNaN(a) || isNaN(b)) {
+      el.className = "result result-error";
+      el.innerHTML = "<p>Enter valid numbers.</p>";
+      el.style.display = "flex";
+      return;
+    }
+    const diffSec = (b - a) / m;
+    const absDiff = Math.abs(b - a);
+    el.className = "result";
+    el.innerHTML = `<strong>${formatDuration(diffSec)}</strong><span class="result-sub">${absDiff.toLocaleString("en-US")} ${unit}</span>`;
+    el.style.display = "flex";
+  });
+
+  document
+    .getElementById("date-calc-btn")
+    .addEventListener("click", function () {
+      const a = document.getElementById("date-start").value;
+      const b = document.getElementById("date-end").value;
+      const el = document.getElementById("date-duration-result");
+      if (!a || !b) {
+        el.className = "result result-error";
+        el.innerHTML = "<p>Select both dates.</p>";
+        el.style.display = "flex";
+        return;
+      }
+      const diffMs = new Date(b).getTime() - new Date(a).getTime();
+      const diffSec = diffMs / 1000;
+      el.className = "result";
+      el.innerHTML = `<strong>${formatDuration(diffSec)}</strong><span class="result-sub">${Math.abs(Math.floor(diffSec)).toLocaleString("en-US")} seconds</span>`;
+      el.style.display = "flex";
+    });
+}
+
+// --- Common Events page ---
+const evNowEl = document.getElementById("ev-now");
+if (evNowEl) {
+  function fmtUTC(d) {
+    return d.toUTCString().replace("GMT", "UTC");
+  }
+
+  function populateEvents() {
+    const now = new Date();
+
+    // Start of today (UTC)
+    const today = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+    );
+    document.getElementById("ev-today").textContent = Math.floor(
+      today.getTime() / 1000,
+    );
+    document.getElementById("ev-today-r").textContent = fmtUTC(today);
+
+    // Start of week (Monday, UTC)
+    const dayOfWeek = now.getUTCDay();
+    const diffToMon = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const monday = new Date(
+      Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate() - diffToMon,
+      ),
+    );
+    document.getElementById("ev-week").textContent = Math.floor(
+      monday.getTime() / 1000,
+    );
+    document.getElementById("ev-week-r").textContent = fmtUTC(monday);
+
+    // Start of month (UTC)
+    const month = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
+    );
+    document.getElementById("ev-month").textContent = Math.floor(
+      month.getTime() / 1000,
+    );
+    document.getElementById("ev-month-r").textContent = fmtUTC(month);
+
+    // Start of year (UTC)
+    const year = new Date(Date.UTC(now.getUTCFullYear(), 0, 1));
+    document.getElementById("ev-year").textContent = Math.floor(
+      year.getTime() / 1000,
+    );
+    document.getElementById("ev-year-r").textContent = fmtUTC(year);
+
+    // End of today (UTC 23:59:59)
+    const todayEnd = new Date(
+      Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(),
+        23,
+        59,
+        59,
+      ),
+    );
+    document.getElementById("ev-today-end").textContent = Math.floor(
+      todayEnd.getTime() / 1000,
+    );
+    document.getElementById("ev-today-end-r").textContent = fmtUTC(todayEnd);
+
+    // Right now
+    document.getElementById("ev-now").textContent = Math.floor(
+      now.getTime() / 1000,
+    );
+    document.getElementById("ev-now-r").textContent = fmtUTC(now);
+  }
+
+  populateEvents();
+  setInterval(populateEvents, 1000);
+}
+
+// --- API Playground page ---
+const apiForm = document.getElementById("api-form");
+if (apiForm) {
+  function updateReqPreview() {
+    const dir = document.getElementById("api-direction").value;
+    const val = document.getElementById("api-value").value || "1700000000";
+    const tz = document.getElementById("api-tz").value;
+    const u = document.getElementById("api-unit").value;
+    document.querySelector("#api-req code").textContent =
+      `POST /api/v1/convert\nContent-Type: application/json\n\n` +
+      JSON.stringify(
+        { direction: dir, value: val, timezone: tz, unit: u },
+        null,
+        2,
+      );
+  }
+
+  document
+    .querySelectorAll("#api-form select, #api-form input")
+    .forEach(function (el) {
+      el.addEventListener("input", updateReqPreview);
+    });
+
+  document
+    .getElementById("api-send-btn")
+    .addEventListener("click", function () {
+      const dir = document.getElementById("api-direction").value;
+      const val = document.getElementById("api-value").value;
+      const tz = document.getElementById("api-tz").value;
+      const u = document.getElementById("api-unit").value;
+
+      updateReqPreview();
+
+      const resEl = document.getElementById("api-res-body");
+      resEl.textContent = "// Loading...";
+
+      fetch("/api/v1/convert", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          direction: dir,
+          value: val,
+          timezone: tz,
+          unit: u,
+        }),
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          resEl.textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(function (e) {
+          resEl.textContent = "// Error: " + e.message;
+        });
+    });
 }

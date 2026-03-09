@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+
+    <h2 class="page-title">Unix Timestamps for Common Events</h2>
+    <p class="page-subtitle">Quick-reference timestamps for commonly used time boundaries, computed live from your
+        system clock.</p>
+
+    <div class="events-grid" id="common-events">
+
+        <div class="event-card">
+            <div class="event-label">Start of Today</div>
+            <div class="event-ts" id="ev-today">—</div>
+            <div class="event-readable" id="ev-today-r"></div>
+            <button class="event-copy"
+                onclick="navigator.clipboard.writeText(document.getElementById('ev-today').textContent)">Copy</button>
+        </div>
+
+        <div class="event-card">
+            <div class="event-label">Start of This Week (Monday)</div>
+            <div class="event-ts" id="ev-week">—</div>
+            <div class="event-readable" id="ev-week-r"></div>
+            <button class="event-copy"
+                onclick="navigator.clipboard.writeText(document.getElementById('ev-week').textContent)">Copy</button>
+        </div>
+
+        <div class="event-card">
+            <div class="event-label">Start of This Month</div>
+            <div class="event-ts" id="ev-month">—</div>
+            <div class="event-readable" id="ev-month-r"></div>
+            <button class="event-copy"
+                onclick="navigator.clipboard.writeText(document.getElementById('ev-month').textContent)">Copy</button>
+        </div>
+
+        <div class="event-card">
+            <div class="event-label">Start of This Year</div>
+            <div class="event-ts" id="ev-year">—</div>
+            <div class="event-readable" id="ev-year-r"></div>
+            <button class="event-copy"
+                onclick="navigator.clipboard.writeText(document.getElementById('ev-year').textContent)">Copy</button>
+        </div>
+
+        <div class="event-card">
+            <div class="event-label">Right Now</div>
+            <div class="event-ts event-ts-live" id="ev-now">—</div>
+            <div class="event-readable" id="ev-now-r"></div>
+            <button class="event-copy"
+                onclick="navigator.clipboard.writeText(document.getElementById('ev-now').textContent)">Copy</button>
+        </div>
+
+        <div class="event-card">
+            <div class="event-label">End of Today</div>
+            <div class="event-ts" id="ev-today-end">—</div>
+            <div class="event-readable" id="ev-today-end-r"></div>
+            <button class="event-copy"
+                onclick="navigator.clipboard.writeText(document.getElementById('ev-today-end').textContent)">Copy</button>
+        </div>
+
+    </div>
+
+    <div class="events-tz-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" width="14" height="14">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        All timestamps are calculated using UTC boundaries.
+    </div>
+
+</div>
+
+<div class="container content-section">
+    <section class="static-section">
+        <h2>When Are These Useful?</h2>
+        <p>Common-event timestamps save you from manual calculation when filtering logs, writing database queries,
+            or building date-range pickers. Instead of computing "start of today in epoch" by hand, just copy the
+            value from here.</p>
+    </section>
+</div>
+{% endblock %}

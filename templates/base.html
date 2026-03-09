@@ -25,14 +25,19 @@
             <span class="nav-title">Epochify</span>
             <span class="nav-version">v1.0.0</span>
         </a>
-        {% if request.url.path == '/' %}
-        <button onclick="document.querySelector('form').reset(); window.location.href='/'">Reset</button>
-        {% endif %}
+        <div class="nav-links">
+            <a href="/duration" {% if request.url.path=='/duration' %}class="active" {% endif %}>Duration Calculator</a>
+            <a href="/common-timestamps" {% if request.url.path=='/common-timestamps' %}class="active" {% endif
+                %}>Common Events</a>
+            <a href="/api-playground" {% if request.url.path=='/api-playground' %}class="active" {% endif %}>API
+                Playground</a>
+        </div>
     </nav>
     {% block content %}{% endblock %}
     <footer>
-        <span>&copy; 2026 Siddharth Ghosh &mdash; All Rights Reserved</span>
+        <span>&copy; 2026 Siddharth Ghosh &bull; All Rights Reserved</span>
         <span class="footer-links">
+            <a href="/">Home</a>
             <a href="/about">About</a>
             <a href="/contact">Contact</a>
             <a href="/privacy">Privacy Policy</a>

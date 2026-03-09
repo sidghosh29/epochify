@@ -14,7 +14,8 @@ from datetime import datetime
 BASE_DIR = Path(__file__).parent
 
 limiter = Limiter(key_func=get_remote_address)
-app = FastAPI(title="Epochify", version="1.0.0")
+app = FastAPI(title="Epochify", version="1.0.0",
+              docs_url=None, redoc_url=None, openapi_url=None)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
@@ -28,7 +29,7 @@ async def index(
     request: Request,
     direction: str = "epoch_to_date",
     value: str = "",
-    timezone: str = "UTC",
+    timezone: str = "Asia/Kolkata",
     unit: str = "seconds"
 ):
     result = convert_logic(value, direction, timezone, unit) if value else None
@@ -43,7 +44,7 @@ async def index(
 async def convert_html(
     direction: str = Form(...),
     value: str = Form(...),
-    timezone: str = Form("UTC"),
+    timezone: str = Form("Asia/Kolkata"),
     unit: str = Form("seconds")
 ):
     return RedirectResponse(
@@ -66,6 +67,21 @@ async def ads_txt():
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@app.get("/duration", response_class=HTMLResponse)
+async def duration(request: Request):
+    return templates.TemplateResponse("duration.html", {"request": request})
+
+
+@app.get("/common-timestamps", response_class=HTMLResponse)
+async def common_timestamps(request: Request):
+    return templates.TemplateResponse("common-timestamps.html", {"request": request})
+
+
+@app.get("/api-playground", response_class=HTMLResponse)
+async def api_playground(request: Request):
+    return templates.TemplateResponse("api-playground.html", {"request": request})
 
 
 @app.get("/about", response_class=HTMLResponse)
@@ -117,6 +133,7 @@ def convert_logic(value: str, direction: str, timezone: str, unit: str) -> dict:
         return {
             "input": value,
             "output": dt_local.strftime("%a, %d %b %Y %H:%M:%S %Z"),
+            "output_utc": dt_utc.strftime("%a, %d %b %Y %H:%M:%S UTC"),
             "unit": unit
         }
     else:  # date_to_epoch
@@ -144,5 +161,6 @@ def convert_logic(value: str, direction: str, timezone: str, unit: str) -> dict:
             "input": value,
             "output": int(epoch),
             "readable": dt_local.strftime("%a, %d %b %Y %H:%M:%S %Z"),
+            "readable_utc": dt_utc.strftime("%a, %d %b %Y %H:%M:%S UTC"),
             "unit": unit
         }

@@ -20,7 +20,11 @@
         </div>
     </div>
 
-    <h2 class="page-title">Unix Epoch ⇄ Human-readable Date</h2>
+    <div class="page-title-bar">
+        <h2 class="page-title">Unix Epoch ⇄ Human-readable Date</h2>
+        <button class="reset-btn"
+            onclick="document.querySelector('form').reset(); window.location.href='/'">Reset</button>
+    </div>
 
     <div class="converters-grid">
 
@@ -33,58 +37,58 @@
                     value="{{ input.value if input.direction == 'epoch_to_date' else '' }}"
                     placeholder="e.g. 1700000000" class="value-input">
                 <select name="timezone">
-                    {% set tz1 = input.timezone if input.direction == 'epoch_to_date' else 'UTC' %}
+                    {% set tz1 = input.timezone if input.direction == 'epoch_to_date' else 'Asia/Kolkata' %}
                     <optgroup label="Universal">
                         <option value="UTC" {% if tz1=='UTC' %}selected{% endif %}>UTC</option>
                     </optgroup>
                     <optgroup label="Asia & Pacific">
-                        <option value="Asia/Kolkata" {% if tz1=='Asia/Kolkata' %}selected{% endif %}>IST — Kolkata
+                        <option value="Asia/Kolkata" {% if tz1=='Asia/Kolkata' %}selected{% endif %}>IST · Kolkata
                         </option>
-                        <option value="Asia/Dubai" {% if tz1=='Asia/Dubai' %}selected{% endif %}>GST — Dubai</option>
-                        <option value="Asia/Singapore" {% if tz1=='Asia/Singapore' %}selected{% endif %}>SGT — Singapore
+                        <option value="Asia/Dubai" {% if tz1=='Asia/Dubai' %}selected{% endif %}>GST · Dubai</option>
+                        <option value="Asia/Singapore" {% if tz1=='Asia/Singapore' %}selected{% endif %}>SGT · Singapore
                         </option>
-                        <option value="Asia/Shanghai" {% if tz1=='Asia/Shanghai' %}selected{% endif %}>CST — Shanghai
+                        <option value="Asia/Shanghai" {% if tz1=='Asia/Shanghai' %}selected{% endif %}>CST · Shanghai
                         </option>
-                        <option value="Asia/Tokyo" {% if tz1=='Asia/Tokyo' %}selected{% endif %}>JST — Tokyo</option>
-                        <option value="Asia/Seoul" {% if tz1=='Asia/Seoul' %}selected{% endif %}>KST — Seoul</option>
-                        <option value="Asia/Karachi" {% if tz1=='Asia/Karachi' %}selected{% endif %}>PKT — Karachi
+                        <option value="Asia/Tokyo" {% if tz1=='Asia/Tokyo' %}selected{% endif %}>JST · Tokyo</option>
+                        <option value="Asia/Seoul" {% if tz1=='Asia/Seoul' %}selected{% endif %}>KST · Seoul</option>
+                        <option value="Asia/Karachi" {% if tz1=='Asia/Karachi' %}selected{% endif %}>PKT · Karachi
                         </option>
-                        <option value="Asia/Dhaka" {% if tz1=='Asia/Dhaka' %}selected{% endif %}>BST — Dhaka</option>
+                        <option value="Asia/Dhaka" {% if tz1=='Asia/Dhaka' %}selected{% endif %}>BST · Dhaka</option>
                         <option value="Australia/Sydney" {% if tz1=='Australia/Sydney' %}selected{% endif %}>AEST —
                             Sydney</option>
                     </optgroup>
                     <optgroup label="Americas">
-                        <option value="America/New_York" {% if tz1=='America/New_York' %}selected{% endif %}>EST — New
+                        <option value="America/New_York" {% if tz1=='America/New_York' %}selected{% endif %}>EST · New
                             York</option>
-                        <option value="America/Chicago" {% if tz1=='America/Chicago' %}selected{% endif %}>CST — Chicago
+                        <option value="America/Chicago" {% if tz1=='America/Chicago' %}selected{% endif %}>CST · Chicago
                         </option>
-                        <option value="America/Denver" {% if tz1=='America/Denver' %}selected{% endif %}>MST — Denver
+                        <option value="America/Denver" {% if tz1=='America/Denver' %}selected{% endif %}>MST · Denver
                         </option>
                         <option value="America/Los_Angeles" {% if tz1=='America/Los_Angeles' %}selected{% endif %}>PST —
                             Los Angeles</option>
-                        <option value="America/Sao_Paulo" {% if tz1=='America/Sao_Paulo' %}selected{% endif %}>BRT — São
+                        <option value="America/Sao_Paulo" {% if tz1=='America/Sao_Paulo' %}selected{% endif %}>BRT · São
                             Paulo</option>
-                        <option value="America/Toronto" {% if tz1=='America/Toronto' %}selected{% endif %}>EST — Toronto
+                        <option value="America/Toronto" {% if tz1=='America/Toronto' %}selected{% endif %}>EST · Toronto
                         </option>
                     </optgroup>
                     <optgroup label="Europe">
-                        <option value="Europe/London" {% if tz1=='Europe/London' %}selected{% endif %}>GMT — London
+                        <option value="Europe/London" {% if tz1=='Europe/London' %}selected{% endif %}>GMT · London
                         </option>
-                        <option value="Europe/Paris" {% if tz1=='Europe/Paris' %}selected{% endif %}>CET — Paris
+                        <option value="Europe/Paris" {% if tz1=='Europe/Paris' %}selected{% endif %}>CET · Paris
                         </option>
-                        <option value="Europe/Berlin" {% if tz1=='Europe/Berlin' %}selected{% endif %}>CET — Berlin
+                        <option value="Europe/Berlin" {% if tz1=='Europe/Berlin' %}selected{% endif %}>CET · Berlin
                         </option>
-                        <option value="Europe/Moscow" {% if tz1=='Europe/Moscow' %}selected{% endif %}>MSK — Moscow
+                        <option value="Europe/Moscow" {% if tz1=='Europe/Moscow' %}selected{% endif %}>MSK · Moscow
                         </option>
                         <option value="Europe/Istanbul" {% if tz1=='Europe/Istanbul' %}selected{% endif %}>TRT —
                             Istanbul</option>
                     </optgroup>
                     <optgroup label="Africa">
-                        <option value="Africa/Cairo" {% if tz1=='Africa/Cairo' %}selected{% endif %}>EET — Cairo
+                        <option value="Africa/Cairo" {% if tz1=='Africa/Cairo' %}selected{% endif %}>EET · Cairo
                         </option>
                         <option value="Africa/Johannesburg" {% if tz1=='Africa/Johannesburg' %}selected{% endif %}>SAST
-                            — Johannesburg</option>
-                        <option value="Africa/Lagos" {% if tz1=='Africa/Lagos' %}selected{% endif %}>WAT — Lagos
+                            · Johannesburg</option>
+                        <option value="Africa/Lagos" {% if tz1=='Africa/Lagos' %}selected{% endif %}>WAT · Lagos
                         </option>
                     </optgroup>
                 </select>
@@ -106,6 +110,9 @@
                 <button type="button" onclick="navigator.clipboard.writeText('{{ result.output }}')">Copy</button>
                 {% endif %}
             </div>
+            {% if result.output_utc and input.timezone != 'UTC' %}
+            <div class="result-utc">UTC: {{ result.output_utc }}</div>
+            {% endif %}
             {% endif %}
         </section>
 
@@ -144,26 +151,26 @@
                             class="date-part sm" min="0" max="59"
                             value="{{ time_parts[2] if time_parts|length > 2 else '' }}"></div>
                     <select name="timezone">
-                        {% set tz2 = input.timezone if input.direction == 'date_to_epoch' else 'UTC' %}
+                        {% set tz2 = input.timezone if input.direction == 'date_to_epoch' else 'Asia/Kolkata' %}
                         <optgroup label="Universal">
                             <option value="UTC" {% if tz2=='UTC' %}selected{% endif %}>UTC</option>
                         </optgroup>
                         <optgroup label="Asia & Pacific">
-                            <option value="Asia/Kolkata" {% if tz2=='Asia/Kolkata' %}selected{% endif %}>IST — Kolkata
+                            <option value="Asia/Kolkata" {% if tz2=='Asia/Kolkata' %}selected{% endif %}>IST · Kolkata
                             </option>
-                            <option value="Asia/Dubai" {% if tz2=='Asia/Dubai' %}selected{% endif %}>GST — Dubai
+                            <option value="Asia/Dubai" {% if tz2=='Asia/Dubai' %}selected{% endif %}>GST · Dubai
                             </option>
                             <option value="Asia/Singapore" {% if tz2=='Asia/Singapore' %}selected{% endif %}>SGT —
                                 Singapore</option>
                             <option value="Asia/Shanghai" {% if tz2=='Asia/Shanghai' %}selected{% endif %}>CST —
                                 Shanghai</option>
-                            <option value="Asia/Tokyo" {% if tz2=='Asia/Tokyo' %}selected{% endif %}>JST — Tokyo
+                            <option value="Asia/Tokyo" {% if tz2=='Asia/Tokyo' %}selected{% endif %}>JST · Tokyo
                             </option>
-                            <option value="Asia/Seoul" {% if tz2=='Asia/Seoul' %}selected{% endif %}>KST — Seoul
+                            <option value="Asia/Seoul" {% if tz2=='Asia/Seoul' %}selected{% endif %}>KST · Seoul
                             </option>
-                            <option value="Asia/Karachi" {% if tz2=='Asia/Karachi' %}selected{% endif %}>PKT — Karachi
+                            <option value="Asia/Karachi" {% if tz2=='Asia/Karachi' %}selected{% endif %}>PKT · Karachi
                             </option>
-                            <option value="Asia/Dhaka" {% if tz2=='Asia/Dhaka' %}selected{% endif %}>BST — Dhaka
+                            <option value="Asia/Dhaka" {% if tz2=='Asia/Dhaka' %}selected{% endif %}>BST · Dhaka
                             </option>
                             <option value="Australia/Sydney" {% if tz2=='Australia/Sydney' %}selected{% endif %}>AEST —
                                 Sydney</option>
@@ -176,30 +183,30 @@
                             <option value="America/Denver" {% if tz2=='America/Denver' %}selected{% endif %}>MST —
                                 Denver</option>
                             <option value="America/Los_Angeles" {% if tz2=='America/Los_Angeles' %}selected{% endif %}>
-                                PST — Los Angeles</option>
+                                PST · Los Angeles</option>
                             <option value="America/Sao_Paulo" {% if tz2=='America/Sao_Paulo' %}selected{% endif %}>BRT —
                                 São Paulo</option>
                             <option value="America/Toronto" {% if tz2=='America/Toronto' %}selected{% endif %}>EST —
                                 Toronto</option>
                         </optgroup>
                         <optgroup label="Europe">
-                            <option value="Europe/London" {% if tz2=='Europe/London' %}selected{% endif %}>GMT — London
+                            <option value="Europe/London" {% if tz2=='Europe/London' %}selected{% endif %}>GMT · London
                             </option>
-                            <option value="Europe/Paris" {% if tz2=='Europe/Paris' %}selected{% endif %}>CET — Paris
+                            <option value="Europe/Paris" {% if tz2=='Europe/Paris' %}selected{% endif %}>CET · Paris
                             </option>
-                            <option value="Europe/Berlin" {% if tz2=='Europe/Berlin' %}selected{% endif %}>CET — Berlin
+                            <option value="Europe/Berlin" {% if tz2=='Europe/Berlin' %}selected{% endif %}>CET · Berlin
                             </option>
-                            <option value="Europe/Moscow" {% if tz2=='Europe/Moscow' %}selected{% endif %}>MSK — Moscow
+                            <option value="Europe/Moscow" {% if tz2=='Europe/Moscow' %}selected{% endif %}>MSK · Moscow
                             </option>
                             <option value="Europe/Istanbul" {% if tz2=='Europe/Istanbul' %}selected{% endif %}>TRT —
                                 Istanbul</option>
                         </optgroup>
                         <optgroup label="Africa">
-                            <option value="Africa/Cairo" {% if tz2=='Africa/Cairo' %}selected{% endif %}>EET — Cairo
+                            <option value="Africa/Cairo" {% if tz2=='Africa/Cairo' %}selected{% endif %}>EET · Cairo
                             </option>
                             <option value="Africa/Johannesburg" {% if tz2=='Africa/Johannesburg' %}selected{% endif %}>
-                                SAST — Johannesburg</option>
-                            <option value="Africa/Lagos" {% if tz2=='Africa/Lagos' %}selected{% endif %}>WAT — Lagos
+                                SAST · Johannesburg</option>
+                            <option value="Africa/Lagos" {% if tz2=='Africa/Lagos' %}selected{% endif %}>WAT · Lagos
                             </option>
                         </optgroup>
                     </select>
@@ -222,6 +229,9 @@
                 <button type="button" onclick="navigator.clipboard.writeText('{{ result.output }}')">Copy</button>
                 {% endif %}
             </div>
+            {% if result.readable_utc and input.timezone != 'UTC' %}
+            <div class="result-utc">UTC: {{ result.readable_utc }}</div>
+            {% endif %}
             {% endif %}
         </section>
 
