@@ -30,13 +30,30 @@ if (liveEpochEl) {
   }
 
   // Pre-populate date fields
-  const now = new Date();
-  document.getElementById("f-yr").value = now.getUTCFullYear();
-  document.getElementById("f-mon").value = now.getUTCMonth() + 1;
-  document.getElementById("f-day").value = now.getUTCDate();
-  document.getElementById("f-hr").value = now.getUTCHours();
-  document.getElementById("f-min").value = now.getUTCMinutes();
-  document.getElementById("f-sec").value = now.getUTCSeconds();
+  const fYr = document.getElementById("f-yr");
+  const fMon = document.getElementById("f-mon");
+  const fDay = document.getElementById("f-day");
+  const fHr = document.getElementById("f-hr");
+  const fMin = document.getElementById("f-min");
+  const fSec = document.getElementById("f-sec");
+
+  // Keep submitted values after redirect; initialize with current UTC only when empty.
+  if (
+    !fYr.value &&
+    !fMon.value &&
+    !fDay.value &&
+    !fHr.value &&
+    !fMin.value &&
+    !fSec.value
+  ) {
+    const now = new Date();
+    fYr.value = now.getUTCFullYear();
+    fMon.value = now.getUTCMonth() + 1;
+    fDay.value = now.getUTCDate();
+    fHr.value = now.getUTCHours();
+    fMin.value = now.getUTCMinutes();
+    fSec.value = now.getUTCSeconds();
+  }
 
   document.getElementById("date-form").addEventListener("submit", function () {
     const yr = document.getElementById("f-yr").value || "1970";

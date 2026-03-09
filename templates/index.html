@@ -112,27 +112,37 @@
         <!-- Date → Epoch -->
         <section class="converter-section">
             <h3 class="section-title">Date to Unix Timestamp</h3>
+            {% set dval = input.value if input.direction == 'date_to_epoch' else '' %}
+            {% set dparts = dval.split(' ') if dval else [] %}
+            {% set date_parts = dparts[0].split('-') if dparts|length > 0 else [] %}
+            {% set time_parts = dparts[1].split(':') if dparts|length > 1 else [] %}
             <form method="POST" action="/" class="date-form" id="date-form">
                 <input type="hidden" name="direction" value="date_to_epoch">
                 <input type="hidden" name="value" id="date-value">
                 <div class="date-inputs">
                     <div class="date-field"><span class="date-label">Yr</span><input type="number" id="f-yr"
-                            class="date-part yr" min="1970"></div>
+                            class="date-part yr" min="1970"
+                            value="{{ date_parts[0] if date_parts|length > 0 else '' }}"></div>
                     <span class="sep">-</span>
                     <div class="date-field"><span class="date-label">Mon</span><input type="number" id="f-mon"
-                            class="date-part sm" min="1" max="12"></div>
+                            class="date-part sm" min="1" max="12"
+                            value="{{ date_parts[1] if date_parts|length > 1 else '' }}"></div>
                     <span class="sep">-</span>
                     <div class="date-field"><span class="date-label">Day</span><input type="number" id="f-day"
-                            class="date-part sm" min="1" max="31"></div>
+                            class="date-part sm" min="1" max="31"
+                            value="{{ date_parts[2] if date_parts|length > 2 else '' }}"></div>
                     <span class="sep">&nbsp;</span>
                     <div class="date-field"><span class="date-label">Hr</span><input type="number" id="f-hr"
-                            class="date-part sm" min="0" max="23"></div>
+                            class="date-part sm" min="0" max="23"
+                            value="{{ time_parts[0] if time_parts|length > 0 else '' }}"></div>
                     <span class="sep">:</span>
                     <div class="date-field"><span class="date-label">Min</span><input type="number" id="f-min"
-                            class="date-part sm" min="0" max="59"></div>
+                            class="date-part sm" min="0" max="59"
+                            value="{{ time_parts[1] if time_parts|length > 1 else '' }}"></div>
                     <span class="sep">:</span>
                     <div class="date-field"><span class="date-label">Sec</span><input type="number" id="f-sec"
-                            class="date-part sm" min="0" max="59"></div>
+                            class="date-part sm" min="0" max="59"
+                            value="{{ time_parts[2] if time_parts|length > 2 else '' }}"></div>
                     <select name="timezone">
                         {% set tz2 = input.timezone if input.direction == 'date_to_epoch' else 'UTC' %}
                         <optgroup label="Universal">
@@ -194,9 +204,12 @@
                         </optgroup>
                     </select>
                     <select name="unit">
-                        <option value="seconds">Seconds</option>
-                        <option value="milliseconds">Milliseconds</option>
-                        <option value="microseconds">Microseconds</option>
+                        <option value="seconds" {% if input.direction=='date_to_epoch' and input.unit=='seconds'
+                            %}selected{% endif %}>Seconds</option>
+                        <option value="milliseconds" {% if input.direction=='date_to_epoch' and
+                            input.unit=='milliseconds' %}selected{% endif %}>Milliseconds</option>
+                        <option value="microseconds" {% if input.direction=='date_to_epoch' and
+                            input.unit=='microseconds' %}selected{% endif %}>Microseconds</option>
                     </select>
                 </div>
                 <button type="submit" class="form-action-btn">Epochify</button>
