@@ -4,7 +4,7 @@ from fastapi import FastAPI, Form, Request
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from models import ConvertRequest
@@ -56,6 +56,11 @@ async def convert_html(
 @app.get("/epoch-clock", response_class=HTMLResponse)
 async def epoch_clock(request: Request):
     return templates.TemplateResponse("epoch-clock.html", {"request": request})
+
+
+@app.get("/ads.txt", response_class=PlainTextResponse)
+async def ads_txt():
+    return (BASE_DIR / "ads.txt").read_text()
 
 
 @app.get("/health")
