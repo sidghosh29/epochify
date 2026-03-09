@@ -1,42 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container static-page">
-    <h2 class="page-title">About Epochify</h2>
+<div class="container static-page static-page-shell">
+    <header class="static-hero">
+        <p class="static-kicker">About</p>
+        <h2 class="page-title static-title-left">Epochify</h2>
+        <p class="static-lead">Epochify is a free, developer-focused utility for converting Unix epoch timestamps
+            and human-readable dates with speed, clarity, and timezone accuracy.</p>
+    </header>
 
-    <section class="static-section">
-        <p>Epochify is a free, no-frills tool for converting between Unix epoch timestamps and human-readable dates.
-            It was built by <strong>Siddharth Ghosh</strong> as a fast, reliable reference for developers who
-            regularly work with timestamps across different systems, timezones, and APIs.</p>
-    </section>
+    <div class="static-grid">
+        <section class="static-section static-surface">
+            <h3>What is a Unix Timestamp?</h3>
+            <p>A Unix timestamp is the number of seconds that have elapsed since
+                <strong>January 1, 1970, 00:00:00 UTC</strong>. Because it is timezone-neutral, it is a reliable
+                format for storing and comparing moments in time across APIs, databases, logs, and distributed
+                systems.
+            </p>
+        </section>
 
-    <section class="static-section">
-        <h3>What is a Unix Timestamp?</h3>
-        <p>A Unix timestamp is an integer representing the number of seconds elapsed since
-            <strong>January 1, 1970, 00:00:00 UTC</strong>, also known as the Unix epoch. It is
-            timezone-independent, making it a consistent way to store and compare points in time across different
-            systems and programming languages. Many APIs and databases also use millisecond or microsecond
-            variants of the same format.
-        </p>
-    </section>
+        <section class="static-section static-surface">
+            <h3>Why Epochify Exists</h3>
+            <p>Timestamps appear everywhere, but conversion should not interrupt your workflow. Epochify gives a
+                single, clean interface for both conversion directions with unit and timezone support built in.</p>
+        </section>
+    </div>
 
-    <section class="static-section">
-        <h3>Why Epochify Exists</h3>
-        <p>Timestamps appear constantly in log files, database records, API responses, and debugging sessions.
-            Converting them mentally or writing a one-off script each time is inefficient. Epochify provides a
-            single, quick interface to handle the conversion in either direction, with timezone and unit support
-            built in.</p>
-    </section>
-
-    <section class="static-section">
-        <h3>Features</h3>
-        <ul>
-            <li>Convert Unix timestamps to human-readable dates</li>
-            <li>Convert dates to Unix timestamps</li>
+    <section class="static-section static-surface">
+        <h3>Core Features</h3>
+        <ul class="feature-list">
+            <li>Convert Unix timestamp to date and time</li>
+            <li>Convert date and time to Unix timestamp</li>
             <li>Support for seconds, milliseconds, and microseconds</li>
-            <li>20+ timezone options across all major regions</li>
-            <li>Live current epoch display on the home page</li>
-            <li>REST API endpoint for programmatic use (<code>/api/v1/convert</code>)</li>
+            <li>Multiple timezone options across major regions</li>
+            <li>Live epoch display for quick copy and checks</li>
+            <li>REST API endpoint available at <code>/api/v1/convert</code></li>
         </ul>
+    </section>
+
+    <section class="static-section static-surface">
+        <h3>Built For</h3>
+        <p>Epochify is useful for debugging logs, validating API payloads, preparing database values, and quickly
+            checking time conversions during development and testing.</p>
     </section>
 </div>
 {% endblock %}

@@ -1,42 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container static-page">
-    <h2 class="page-title">Privacy Policy</h2>
-    <p class="static-meta">Last updated: March 8, 2026</p>
+<div class="container static-page static-page-shell">
+    <header class="static-hero">
+        <p class="static-kicker">Legal</p>
+        <h2 class="page-title static-title-left">Privacy Policy</h2>
+        <p class="static-meta-pill">Last updated: March 9, 2026</p>
+        <p class="static-lead">This page explains what information Epochify handles and how advertising providers may
+            use cookies.</p>
+    </header>
 
-    <section class="static-section">
-        <p>Epochify is a simple developer tool that converts Unix timestamps to human-readable dates and vice versa.</p>
-    </section>
-
-    <section class="static-section">
+    <section class="static-section static-surface">
         <h3>Information We Collect</h3>
         <p>Epochify does not require user accounts and does not intentionally collect personal information. Timestamp
-            conversions are processed in real time and input data is not stored.</p>
+            conversions are processed in real time, and conversion input is not stored as user profile data.</p>
     </section>
 
-    <section class="static-section">
+    <section class="static-section static-surface">
         <h3>Cookies and Advertising</h3>
-        <p>This website uses Google AdSense to display advertisements. Google may use cookies to serve ads based on
-            users' visits to this and other websites. Users can opt out of personalized advertising by visiting
+        <p>This website uses Google AdSense to display advertisements.</p>
+        <p>Google's use of advertising cookies enables it and its partners to serve ads based on users’ visits to
+            this and other websites.</p>
+        <p>Users can opt out of personalized advertising by visiting
             <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads
                 Settings</a>.
         </p>
     </section>
 
-    <section class="static-section">
+    <section class="static-section static-surface">
         <h3>Third-Party Services</h3>
-        <p>Epochify uses third-party services such as Google AdSense and Google Fonts. These services may collect
+        <p>Epochify uses third-party services such as Google AdSense and Google Fonts. These providers may collect
             information according to their own privacy policies.</p>
     </section>
 
-    <section class="static-section">
-        <h3>Changes</h3>
-        <p>This policy may be updated occasionally. Updates will be posted on this page.</p>
+    <section class="static-section static-surface">
+        <h3>Policy Updates</h3>
+        <p>This policy may be updated from time to time. Any changes will be published on this page.</p>
     </section>
 
-    <section class="static-section">
+    <section class="static-section static-surface">
         <h3>Contact</h3>
-        <p>For questions about this policy, please contact us via the <a href="/contact">Contact</a> page.</p>
+        <p>Questions about this policy can be shared through the <a href="/contact">Contact</a> page.</p>
     </section>
 </div>
 {% endblock %}

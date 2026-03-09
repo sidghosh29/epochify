@@ -109,7 +109,9 @@ nav button {
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 nav button:hover {
   background-color: #7c3aed !important;
@@ -126,6 +128,12 @@ nav button:hover {
     grid-template-columns: 1fr;
   }
   body {
+    padding: 1rem;
+  }
+  .static-grid {
+    grid-template-columns: 1fr;
+  }
+  .static-hero {
     padding: 1rem;
   }
 }
@@ -383,6 +391,95 @@ nav button:hover {
   margin-bottom: 2rem;
 }
 
+/* Static pages (About / Privacy / Contact) */
+.static-page-shell {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.static-hero {
+  margin-bottom: 1.4rem;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #17171f 0%, #121212 100%);
+}
+
+.static-kicker {
+  margin: 0 0 0.45rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #7d7d7d;
+  font-weight: 600;
+}
+
+.static-title-left {
+  text-align: left;
+  margin: 0 0 0.5rem;
+}
+
+.static-lead {
+  margin: 0;
+  color: #b8b8b8;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.static-meta-pill {
+  display: inline-block;
+  margin: 0.15rem 0 0.7rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid #383838;
+  color: #9d9d9d;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.static-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.static-surface {
+  background: #171717;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 1rem 1.05rem;
+}
+
+.static-page .static-section {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.static-page .static-section h3 {
+  margin-top: 0;
+}
+
+.feature-list {
+  margin: 0.6rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.feature-list li {
+  margin-bottom: 0.35rem;
+}
+
+.static-page a {
+  color: #a78bfa;
+  text-decoration-color: #6d4fd6;
+  text-underline-offset: 2px;
+}
+
+.static-page a:hover,
+.static-page a:focus-visible {
+  color: #cab8ff;
+}
+
 .content-section h2 {
   font-size: 1.15rem;
   font-weight: 600;
@@ -554,4 +651,27 @@ footer {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 400;
+}
+
+.footer-links {
+  display: inline-flex;
+  gap: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.footer-links a,
+.footer-links a:visited {
+  color: #8b8b8b;
+  text-decoration: underline;
+  text-decoration-color: #3a3a3a;
+  text-underline-offset: 3px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: #a78bfa;
+  text-decoration-color: #7c3aed;
 }

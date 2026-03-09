@@ -23,7 +23,9 @@
             <span class="nav-title">Epochify</span>
             <span class="nav-version">v1.0.0</span>
         </a>
+        {% if request.url.path == '/' %}
         <button onclick="document.querySelector('form').reset(); window.location.href='/'">Reset</button>
+        {% endif %}
     </nav>
     {% block content %}{% endblock %}
     <footer>
