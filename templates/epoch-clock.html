@@ -20,4 +20,21 @@
     </div>
 
 </div>
+
+<div class="container content-section">
+    <section class="static-section">
+        <h2>What This Clock Shows</h2>
+        <p>The epoch value updates once per second and represents the current number of elapsed seconds since January 1, 1970 at 00:00:00 UTC. The additional rows show the same instant in hexadecimal, milliseconds, and GMT text format.</p>
+        <p>This is useful for debugging logging systems, validating cache expiry values, and quickly checking time offsets across environments.</p>
+    </section>
+
+    <section class="static-section">
+        <h2>Practical Tips</h2>
+        <ul>
+            <li>Use milliseconds when integrating with browser APIs and JavaScript runtimes.</li>
+            <li>Use seconds for many Unix tools, monitoring rules, and backend job schedulers.</li>
+            <li>Use UTC when comparing timestamps from systems in different timezones.</li>
+        </ul>
+    </section>
+</div>
 {% endblock %}

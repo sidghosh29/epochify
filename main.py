@@ -24,20 +24,31 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
+def render_page(template_name: str, request: Request, context: dict | None = None, show_ads: bool = False):
+    page_context = {"request": request, "show_ads": show_ads}
+    if context:
+        page_context.update(context)
+    return templates.TemplateResponse(template_name, page_context)
+
+
 @app.get("/", response_class=HTMLResponse)
 async def index(
     request: Request,
     direction: str = "epoch_to_date",
     value: str = "",
-    timezone: str = "Asia/Kolkata",
+    timezone: str = "UTC",
     unit: str = "seconds"
 ):
     result = convert_logic(value, direction, timezone, unit) if value else None
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "input": {"direction": direction, "value": value, "timezone": timezone, "unit": unit},
-        "result": result
-    })
+    return render_page(
+        "index.html",
+        request,
+        {
+            "input": {"direction": direction, "value": value, "timezone": timezone, "unit": unit},
+            "result": result,
+        },
+        show_ads=True,
+    )
 
 
 @app.post("/", response_class=HTMLResponse)
@@ -56,7 +67,7 @@ async def convert_html(
 
 @app.get("/epoch-clock", response_class=HTMLResponse)
 async def epoch_clock(request: Request):
-    return templates.TemplateResponse("epoch-clock.html", {"request": request})
+    return render_page("epoch-clock.html", request)
 
 
 @app.get("/ads.txt", response_class=PlainTextResponse)
@@ -71,32 +82,37 @@ async def health():
 
 @app.get("/duration", response_class=HTMLResponse)
 async def duration(request: Request):
-    return templates.TemplateResponse("duration.html", {"request": request})
+    return render_page("duration.html", request)
 
 
 @app.get("/common-timestamps", response_class=HTMLResponse)
 async def common_timestamps(request: Request):
-    return templates.TemplateResponse("common-timestamps.html", {"request": request})
+    return render_page("common-timestamps.html", request)
 
 
 @app.get("/api-playground", response_class=HTMLResponse)
 async def api_playground(request: Request):
-    return templates.TemplateResponse("api-playground.html", {"request": request})
+    return render_page("api-playground.html", request)
 
 
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request})
+    return render_page("about.html", request, show_ads=True)
 
 
 @app.get("/privacy", response_class=HTMLResponse)
 async def privacy(request: Request):
-    return templates.TemplateResponse("privacy.html", {"request": request})
+    return render_page("privacy.html", request)
+
+
+@app.get("/terms", response_class=HTMLResponse)
+async def terms(request: Request):
+    return render_page("terms.html", request)
 
 
 @app.get("/contact", response_class=HTMLResponse)
 async def contact_get(request: Request):
-    return templates.TemplateResponse("contact.html", {"request": request})
+    return render_page("contact.html", request)
 
 
 @app.post("/api/v1/convert")

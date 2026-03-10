@@ -84,4 +84,23 @@ Content-Type: application/json
     </div>
 
 </div>
+
+<div class="container content-section">
+    <section class="static-section">
+        <h2>How to Use the Epochify API in Production</h2>
+        <p>Use <code>epoch_to_date</code> when logs, queue payloads, or webhooks store timestamps as integers and you need readable output for dashboards or alerts. Use <code>date_to_epoch</code> when user-facing date inputs must be normalized before writing to a database or sending to another API.</p>
+        <p>Always pass an explicit timezone for user-entered dates. This avoids ambiguous conversions when clients in different regions submit the same clock time.</p>
+    </section>
+
+    <section class="static-section">
+        <h2>Error Cases to Handle</h2>
+        <ul>
+            <li>Invalid timezone strings return an error response with a clear message.</li>
+            <li>Non-numeric epoch input for <code>epoch_to_date</code> fails validation.</li>
+            <li>Dates outside supported range and DST edge cases can return conversion errors.</li>
+            <li>Requests above the configured limit can be rate limited.</li>
+        </ul>
+        <p>For resilient clients, retry only transient failures and surface validation messages directly to users.</p>
+    </section>
+</div>
 {% endblock %}

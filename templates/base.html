@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Epochify</title>
+    <title>{% block title %}Epochify — Unix Timestamp Converter{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Free online Unix epoch timestamp converter. Convert between Unix timestamps and human-readable dates with timezone support.{% endblock %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
     <script src="{{ url_for('static', path='/main.js') }}" defer></script>
+    {% if show_ads %}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4420928514247594"
         crossorigin="anonymous"></script>
+    {% endif %}
 </head>
 
 <body>
@@ -40,6 +43,7 @@
             <a href="/">Home</a>
             <a href="/about">About</a>
             <a href="/contact">Contact</a>
+            <a href="/terms">Terms</a>
             <a href="/privacy">Privacy Policy</a>
         </span>
     </footer>

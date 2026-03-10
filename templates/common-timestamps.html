@@ -77,5 +77,16 @@
             or building date-range pickers. Instead of computing "start of today in epoch" by hand, just copy the
             value from here.</p>
     </section>
+
+    <section class="static-section">
+        <h2>Common Real-World Scenarios</h2>
+        <ul>
+            <li><strong>Analytics windows:</strong> set daily and weekly query boundaries for reporting jobs.</li>
+            <li><strong>Incident response:</strong> filter logs between known outage start and recovery timestamps.</li>
+            <li><strong>Billing:</strong> define clean month-start and month-end ranges for usage calculations.</li>
+            <li><strong>Data pipelines:</strong> checkpoint event ingestion by using deterministic UTC boundaries.</li>
+        </ul>
+        <p>All values on this page are generated in UTC to keep cross-region systems consistent.</p>
+    </section>
 </div>
 {% endblock %}

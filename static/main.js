@@ -2,6 +2,48 @@ function pad(n) {
   return String(n).padStart(2, "0");
 }
 
+function getBrowserTimezone() {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+  } catch (_e) {
+    return "";
+  }
+}
+
+// Map browser-returned timezone aliases to the IANA names used in the dropdowns.
+var TZ_ALIASES = {
+  "Asia/Calcutta": "Asia/Kolkata",
+  "US/Eastern": "America/New_York",
+  "US/Central": "America/Chicago",
+  "US/Mountain": "America/Denver",
+  "US/Pacific": "America/Los_Angeles",
+  "Europe/Kiev": "Europe/Kyiv",
+};
+
+function applyLocalTimezone(selectEl, skip) {
+  if (!selectEl || skip) return;
+
+  var localTz = getBrowserTimezone();
+  if (!localTz) return;
+
+  // Resolve known aliases to dropdown values.
+  var resolved = TZ_ALIASES[localTz] || localTz;
+
+  var existing = Array.from(selectEl.options).find(
+    function (opt) { return opt.value === resolved; },
+  );
+  if (existing) {
+    selectEl.value = resolved;
+  } else {
+    // Timezone not in list at all — add it.
+    var opt = document.createElement("option");
+    opt.value = resolved;
+    opt.textContent = resolved;
+    selectEl.insertBefore(opt, selectEl.firstChild);
+    selectEl.value = resolved;
+  }
+}
+
 // --- Index page: live epoch bar ---
 const liveEpochEl = document.getElementById("live-epoch");
 if (liveEpochEl) {
@@ -37,8 +79,14 @@ if (liveEpochEl) {
   const fMin = document.getElementById("f-min");
   const fSec = document.getElementById("f-sec");
 
+  // Default timezone follows the viewer's browser timezone.
+  // Skip the select that belongs to the submitted direction (its value comes from the server).
+  var params = new URLSearchParams(window.location.search);
+  var submittedDir = params.has("timezone") ? params.get("direction") : null;
+  applyLocalTimezone(document.getElementById("epoch-timezone"), submittedDir === "epoch_to_date");
+  applyLocalTimezone(document.getElementById("date-timezone"), submittedDir === "date_to_epoch");
+
   // Keep submitted values after redirect; initialize with current local time only when empty.
-  // Local time is used because the default timezone dropdown is Asia/Kolkata (IST).
   if (
     !fYr.value &&
     !fMon.value &&
@@ -282,6 +330,8 @@ if (evNowEl) {
 // --- API Playground page ---
 const apiForm = document.getElementById("api-form");
 if (apiForm) {
+  applyLocalTimezone(document.getElementById("api-tz"), false);
+
   function updateReqPreview() {
     const dir = document.getElementById("api-direction").value;
     const val = document.getElementById("api-value").value || "1700000000";

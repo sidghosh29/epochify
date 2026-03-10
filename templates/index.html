@@ -36,8 +36,8 @@
                 <input type="text" name="value" id="epoch-input"
                     value="{{ input.value if input.direction == 'epoch_to_date' else '' }}"
                     placeholder="e.g. 1700000000" class="value-input">
-                <select name="timezone">
-                    {% set tz1 = input.timezone if input.direction == 'epoch_to_date' else 'Asia/Kolkata' %}
+                <select name="timezone" id="epoch-timezone">
+                    {% set tz1 = input.timezone if input.direction == 'epoch_to_date' else '' %}
                     <optgroup label="Universal">
                         <option value="UTC" {% if tz1=='UTC' %}selected{% endif %}>UTC</option>
                     </optgroup>
@@ -150,8 +150,8 @@
                     <div class="date-field"><span class="date-label">Sec</span><input type="number" id="f-sec"
                             class="date-part sm" min="0" max="59"
                             value="{{ time_parts[2] if time_parts|length > 2 else '' }}"></div>
-                    <select name="timezone">
-                        {% set tz2 = input.timezone if input.direction == 'date_to_epoch' else 'Asia/Kolkata' %}
+                    <select name="timezone" id="date-timezone">
+                        {% set tz2 = input.timezone if input.direction == 'date_to_epoch' else '' %}
                         <optgroup label="Universal">
                             <option value="UTC" {% if tz2=='UTC' %}selected{% endif %}>UTC</option>
                         </optgroup>
@@ -311,6 +311,98 @@ console.log(epoch);  // 1700000000</code></pre>
                 network packet capture. Divide by 1,000,000 to get seconds.</li>
         </ul>
         <p>Epochify supports all three. Just select the correct unit before converting.</p>
+    </section>
+
+    <section class="static-section">
+        <h2>Common Uses of Unix Timestamps</h2>
+        <p>Unix timestamps appear across nearly every layer of modern software. Below are situations where developers, DevOps engineers, and analysts encounter them daily.</p>
+        <ul>
+            <li><strong>Server logs and observability:</strong> tools like syslog, Elasticsearch, and CloudWatch store event times as epoch values so queries can use fast integer comparisons.</li>
+            <li><strong>Database records:</strong> many schemas use an integer column for <code>created_at</code> or <code>updated_at</code> instead of a native datetime, particularly in SQLite and older MySQL versions.</li>
+            <li><strong>JWT tokens:</strong> the <code>iat</code>, <code>exp</code>, and <code>nbf</code> claims in JSON Web Tokens are Unix timestamps in seconds.</li>
+            <li><strong>Scheduling and cron:</strong> job schedulers compare the current epoch against a target value to decide when to fire tasks.</li>
+            <li><strong>Cache TTLs:</strong> systems like Redis and Memcached accept expiry times as absolute epoch values or relative seconds.</li>
+            <li><strong>Git internals:</strong> commit objects store author and committer dates as Unix timestamps with timezone offsets.</li>
+            <li><strong>API request signing:</strong> AWS Signature V4 and similar schemes include a timestamp to prevent replay attacks.</li>
+        </ul>
+    </section>
+
+    <section class="static-section">
+        <h2>Unix Timestamp Examples</h2>
+        <p>The table below shows well-known timestamps and their human-readable equivalents in UTC.</p>
+        <table class="ts-table">
+            <thead>
+                <tr><th>Timestamp</th><th>Date &amp; Time (UTC)</th><th>Note</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>0</td><td>Thu, 01 Jan 1970 00:00:00</td><td>The Unix epoch</td></tr>
+                <tr><td>1000000000</td><td>Sun, 09 Sep 2001 01:46:40</td><td>One billion seconds</td></tr>
+                <tr><td>1234567890</td><td>Fri, 13 Feb 2009 23:31:30</td><td>Ascending digit sequence</td></tr>
+                <tr><td>1500000000</td><td>Fri, 14 Jul 2017 02:40:00</td><td>1.5 billion seconds</td></tr>
+                <tr><td>1700000000</td><td>Tue, 14 Nov 2023 22:13:20</td><td>1.7 billion seconds</td></tr>
+                <tr><td>2000000000</td><td>Wed, 18 May 2033 03:33:20</td><td>Two billion seconds</td></tr>
+                <tr><td>2147483647</td><td>Tue, 19 Jan 2038 03:14:07</td><td>32-bit signed integer maximum</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="static-section">
+        <h2>The Year 2038 Problem</h2>
+        <p>Many older systems store Unix timestamps as a <strong>signed 32-bit integer</strong>. The largest value a signed 32-bit integer can hold is <strong>2,147,483,647</strong>, which corresponds to <strong>Tuesday, 19 January 2038 at 03:14:07 UTC</strong>. One second later the value overflows to a large negative number, causing the system to interpret the date as December 1901.</p>
+        <p>This is sometimes called the <strong>Y2K38 bug</strong> or the <strong>Epochalypse</strong>. It mirrors the Year 2000 problem but affects low-level infrastructure rather than display formatting.</p>
+        <h3>Who is affected?</h3>
+        <ul>
+            <li><strong>Embedded systems:</strong> IoT devices, automotive controllers, and industrial PLCs that use 32-bit time functions and rarely receive firmware updates.</li>
+            <li><strong>Legacy databases:</strong> older MySQL <code>TIMESTAMP</code> columns have an upper bound of 2038-01-19. Newer versions and PostgreSQL use 64-bit storage.</li>
+            <li><strong>C/C++ programs:</strong> code that uses <code>time_t</code> as a 32-bit type will overflow. Most modern 64-bit compilers already define <code>time_t</code> as 64-bit.</li>
+            <li><strong>File formats:</strong> some archive and media formats embed 32-bit timestamps in headers.</li>
+        </ul>
+        <h3>How to prepare</h3>
+        <p>Use 64-bit timestamps wherever possible. In databases, prefer <code>BIGINT</code> or native <code>TIMESTAMPTZ</code> columns. In application code, ensure your language runtime uses 64-bit epoch values — Python, Java, Go, and modern C compilers on 64-bit systems already do this by default. Audit any third-party libraries or file formats that may still assume 32-bit storage.</p>
+    </section>
+
+    <section class="static-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <h3>What is Unix epoch time?</h3>
+            <p>Unix epoch time is the number of seconds that have elapsed since January 1, 1970, 00:00:00 UTC. It provides a single, timezone-independent integer that any system can interpret without formatting rules.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Why does the epoch start on January 1, 1970?</h3>
+            <p>The date was chosen by the designers of early Unix at Bell Labs. It was a recent, round date at the time the system was being developed, and using midnight UTC on the first day of the year simplified calculations.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Do Unix timestamps account for leap seconds?</h3>
+            <p>No. POSIX time assumes every day has exactly 86,400 seconds. When a leap second is inserted by international timekeeping authorities, Unix clocks either repeat a second or use a "smeared" adjustment. This means a Unix timestamp does not correspond exactly to TAI or UTC during a leap second event.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>What is the difference between seconds, milliseconds, and microseconds?</h3>
+            <p>They differ only in resolution. A timestamp of <strong>1700000000</strong> in seconds equals <strong>1700000000000</strong> in milliseconds and <strong>1700000000000000</strong> in microseconds. JavaScript's <code>Date.now()</code> returns milliseconds; Python's <code>time.time()</code> returns seconds as a float; PostgreSQL's <code>clock_timestamp()</code> gives microsecond precision.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Can Unix timestamps be negative?</h3>
+            <p>Yes. A negative timestamp represents a moment before the epoch. For example, <strong>-86400</strong> is December 31, 1969, 00:00:00 UTC. Not all systems support negative timestamps — some treat the value as unsigned or clamp it to zero.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How do I get the current Unix timestamp?</h3>
+            <p>In a terminal: <code>date +%s</code> (Linux/macOS). In Python: <code>import time; time.time()</code>. In JavaScript: <code>Math.floor(Date.now() / 1000)</code>. Or simply look at the live counter at the top of this page.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>What happens after 2038?</h3>
+            <p>Systems using a signed 32-bit integer for timestamps will overflow on January 19, 2038. Most modern platforms use 64-bit integers, which will not overflow for approximately 292 billion years. See the Year 2038 Problem section above for details.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Is Epochify free to use?</h3>
+            <p>Yes. The web converter and API are free with no account required. API requests are rate limited to 60 per minute per IP to keep the service available for everyone.</p>
+        </div>
     </section>
 
 </div>
